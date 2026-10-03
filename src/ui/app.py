@@ -30,7 +30,7 @@ import threading
 import chainlit as cl
 from chainlit.input_widget import Select, Slider, Switch
 
-from src.config import get_config
+from config import get_config
 
 DOC_TYPE_OPTIONS = ["all", "pdf", "sop", "csv"]
 
