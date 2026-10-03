@@ -82,9 +82,13 @@ docker compose up -d
 # 5. Run the full pipeline: generate corpus -> chunk -> embed -> store -> project
 python scripts/run_full_pipeline.py
 
-# 6. Launch the chat UI
+# 6. Launch a UI
 PYTHONPATH=. chainlit run src/ui/app.py
 # then open the localhost URL Chainlit prints (default http://localhost:8000)
+
+# Or launch the Streamlit question-and-answer UI
+streamlit run src/ui/streamlit_app.py
+# Streamlit prints the local URL (default http://localhost:8501)
 ```
 
 `scripts/run_full_pipeline.py` generates the synthetic corpus, chunks and
@@ -92,9 +96,9 @@ embeds it (with caching), upserts everything into Qdrant, prints collection
 stats, and writes a 2D embedding scatter plot to
 `docs/course/embedding_scatter.html` / `.png`.
 
-If `OPENROUTER_API_KEY` isn't set yet, steps 1-4 (and search/rerank in the
-UI) still work fully offline — only the final LLM answer step falls back to
-a retrieved-context-only mode.
+If `OPENROUTER_API_KEY` isn't set yet, steps 1-4 (and search/rerank in either
+UI) still work fully offline. Both UIs show retrieved context without an LLM
+call; the Streamlit UI labels this mode in the answer panel.
 
 ## Running individual stages
 
@@ -147,7 +151,9 @@ RAG/
 │   ├── search/                     # semantic_search.py
 │   ├── rerank/                     # cross_encoder_rerank.py
 │   ├── generate/                   # openrouter_client.py, answer_synthesis.py
-│   └── ui/app.py                   # Chainlit chat UI
+│   └── ui/
+│       ├── app.py                  # Chainlit chat UI
+│       └── streamlit_app.py        # Streamlit question-and-answer UI
 ├── docs/course/                    # 10-lesson course, start at 00-overview.md
 └── tests/                          # pytest suite (see below)
 ```
