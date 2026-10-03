@@ -25,12 +25,18 @@ Design notes:
 
 from __future__ import annotations
 
+import sys
 import threading
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 import chainlit as cl
 from chainlit.input_widget import Select, Slider, Switch
 
-from config import get_config
+from src.config import get_config
 
 DOC_TYPE_OPTIONS = ["all", "pdf", "sop", "csv"]
 
